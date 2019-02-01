@@ -151,6 +151,19 @@ class BinarySearchTree{
         }
         return arr;
     }
+    public int lowestCommonAnscestor(Node root, int val1, int val2){
+        if(root==null){
+            return -1;
+        }
+        if((val1==root.val || val2==root.val) || (val1>root.val && val2<root.val) || (val1<root.val && val2>root.val)){
+            return root.val;
+        }else if(val1>root.val && val2>root.val){
+            return lowestCommonAnscestor(root.right,val1,val2);
+        }else if(val1<root.val && val2<root.val){
+            return lowestCommonAnscestor(root.left,val1,val2);
+        }
+        return -1;
+    }
 }
 public class test{
     public static void main(String[] args){
@@ -161,7 +174,6 @@ public class test{
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
         System.out.println(bt.validBST(bt.getRoot(),Integer.MIN_VALUE,Integer.MAX_VALUE));
-        res = bt.reverseLevelOrderTraversal(bt.getRoot());
-        System.out.println(res);
+        System.out.println(bt.lowestCommonAnscestor(bt.getRoot(),2,1));
     }
 }
