@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class BinaryTreeSize{
     public int getTreeSize(Node root){
         if(root==null){

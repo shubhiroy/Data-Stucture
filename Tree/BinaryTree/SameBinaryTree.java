@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class SameBinaryTree{
     public boolean checkTree(Node root1, Node root2){
         if(root1!=null && root2!=null && root1.val == root2.val){
