@@ -65,6 +65,18 @@ class BinarySearchTree{
             return false;
         }
     }
+    public boolean validBST(Node root, int min, int max){
+        if(root==null){
+            return true;
+        }
+        if(root.val>min && max>root.val){
+            boolean left = validBST(root.left,min,root.val);
+            boolean right = validBST(root.right,root.val,max);
+            return (left && right);
+        }else{
+            return false;
+        }
+    }
     public void add(int data){
         this.root = add(this.root,data);
     }
@@ -127,8 +139,6 @@ public class test{
         bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
-        if(bt.rootToLeafSum(bt.getRoot(),sc.nextInt(),res)){
-            System.out.println(res);
-        }
+        System.out.println(bt.validBST(bt.getRoot(),Integer.MIN_VALUE,Integer.MAX_VALUE));
     }
 }
