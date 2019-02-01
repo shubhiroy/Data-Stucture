@@ -130,6 +130,27 @@ class BinarySearchTree{
         }
         return false;
     }
+    public ArrayList<Integer> reverseLevelOrderTraversal(Node root){
+        ArrayList<Integer> arr = new ArrayList<>();
+        Stack<Integer> st = new Stack<>();
+        Queue<Node> q = new LinkedList<>();
+        Node curr =  root;
+        q.add(curr);
+        while(q.size()>0){
+            curr = q.poll();
+            st.push(curr.val);
+            if(curr.right!=null){
+                q.add(curr.right);
+            }
+            if(curr.left!=null){
+                q.add(curr.left);
+            }
+        }
+        while(st.size()>0){
+            arr.add(st.pop());
+        }
+        return arr;
+    }
 }
 public class test{
     public static void main(String[] args){
@@ -140,5 +161,7 @@ public class test{
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
         System.out.println(bt.validBST(bt.getRoot(),Integer.MIN_VALUE,Integer.MAX_VALUE));
+        res = bt.reverseLevelOrderTraversal(bt.getRoot());
+        System.out.println(res);
     }
 }
