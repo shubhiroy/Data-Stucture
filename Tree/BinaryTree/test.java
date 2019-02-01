@@ -81,10 +81,42 @@ class BinarySearchTree{
     public Node getRoot(){
         return this.root;
     }
+    public int getTreeHeight(Node root){
+        if(root==null){
+            return 0;
+        }
+        return Math.max(getTreeHeight(root.left), getTreeHeight(root.right))+1;
+    }
     public ArrayList<Integer> postorder(){
         ArrayList<Integer> arr = new ArrayList<>();
         postorder(this.root, arr);
         return arr;
+    }
+    public boolean rootToLeafSum(Node root, int sum, ArrayList<Integer> arr){
+        if(root.left==null && root.right==null){
+            if(sum==root.val){
+                arr.add(root.val);
+                return true;
+            }else{
+                return false;
+            }
+        }
+        sum = sum - root.val;
+        if(root.left!=null){
+            boolean left = rootToLeafSum(root.left, sum, arr);
+            if(left==true){
+                arr.add(root.val);
+                return left;
+            }
+        }
+        if(root.right!=null){
+            boolean right = rootToLeafSum(root.right, sum, arr);
+            if(right==true){
+                arr.add(root.val);
+                return right;
+            }
+        }
+        return false;
     }
 }
 public class test{
@@ -92,26 +124,11 @@ public class test{
         BinarySearchTree bt = new BinarySearchTree();
         BinarySearchTree bt2 = new BinarySearchTree();
         Scanner sc = new Scanner(System.in);
-        // System.out.print("Enter no. of nodes : ");
-        // int n = sc.nextInt();
-        // int i = 0;
-        // System.out.println("Enter the node value . ");
-        // while(i<n){
-        //     bt.add(sc.nextInt());
-        //     i++;
-        // }
-        bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(3);
+        bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
-        ArrayList<Integer> res;
-        System.out.println("InOrder");
-        res = bt.inorder();
-        System.out.println(res);
-        System.out.println("PreOrder");
-        res = bt.preorder();
-        System.out.println(res);
-        System.out.println("PostOrder");
-        res = bt.postorder();
-        System.out.println(bt.checkTree(bt.getRoot(),bt2.getRoot()));
-        System.out.println(bt.getTreeSize(bt2.getRoot()));
+        ArrayList<Integer> res = new ArrayList<>();
+        if(bt.rootToLeafSum(bt.getRoot(),sc.nextInt(),res)){
+            System.out.println(res);
+        }
     }
 }
