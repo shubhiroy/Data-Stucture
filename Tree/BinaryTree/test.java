@@ -164,6 +164,26 @@ class BinarySearchTree{
         }
         return -1;
     }
+    public ArrayList<Integer> inorderIterative(Node root){
+        ArrayList<Integer> arr = new ArrayList<>();
+        Stack<Node> st = new Stack<>();
+        Node curr = root;
+        //st.push(curr);
+        // while(curr!=null){
+        //     st.push(curr);
+        //     curr = curr.left;
+        // }
+        while(curr!=null || st.size()>0){
+            while(curr!=null){
+                st.push(curr);
+                curr = curr.left;
+            }
+            curr = st.pop();
+            arr.add(curr.val);
+            curr = curr.right;
+        }
+        return arr;
+    }
 }
 public class test{
     public static void main(String[] args){
@@ -173,7 +193,9 @@ public class test{
         bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
-        System.out.println(bt.validBST(bt.getRoot(),Integer.MIN_VALUE,Integer.MAX_VALUE));
-        System.out.println(bt.lowestCommonAnscestor(bt.getRoot(),2,1));
+        res = bt.inorder();
+        System.out.println(res);
+        res = bt.inorderIterative(bt.getRoot());
+        System.out.println(res);
     }
 }
