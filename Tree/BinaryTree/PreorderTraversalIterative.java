@@ -6,19 +6,14 @@ public class PreorderTraversalIterative{
         ArrayList<Integer> arr = new ArrayList<>();
         Node curr = root;
         while(curr!=null || st.size()>0){
-            arr.add(curr.val);
             while(curr!=null){
+                arr.add(curr.val);
                 st.push(curr);
                 curr = curr.left;
             }
             curr = st.pop();
-            if(curr.right!=null){
-                st.push(curr.right);
-            }
-            if(curr.left!=null){
-                st.push(curr.left);
-            }
+            curr = curr.right;
         }
-
+        return arr;
     }
 }

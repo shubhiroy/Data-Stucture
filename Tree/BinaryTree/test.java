@@ -104,34 +104,19 @@ class BinarySearchTree{
         postorder(this.root, arr);
         return arr;
     }
-    public ArrayList<Integer> postorderOneStack(Node root){
-        ArrayList<Integer> arr = new ArrayList<>();
+    public ArrayList<Integer> preorderIterative(Node root){
         Stack<Node> st = new Stack<>();
+        ArrayList<Integer> arr = new ArrayList<>();
         Node curr = root;
         while(curr!=null || st.size()>0){
-            if(curr!=null){
+            // arr.add(curr.val);
+            while(curr!=null){
+                arr.add(curr.val);
                 st.push(curr);
                 curr = curr.left;
-            }else{
-                Node temp = st.peek();
-                if(temp.right==null){
-                    temp = st.pop();
-                    arr.add(temp.val);
-                    if(temp==st.peek().right){
-                        while(st.size()>0 && temp==st.peek().right){
-                            temp = st.pop();
-                            arr.add(temp.val);
-                        }
-                    }
-                    if(st.size()>0){
-                        curr = st.peek().right;
-                    }
-                }else{
-                    curr = temp.right;
-                    st.push(curr);
-                    curr = curr.left;
-                }
             }
+            curr = st.pop();
+            curr = curr.right;
         }
         return arr;
     }
@@ -144,7 +129,7 @@ public class test{
         bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
-        res = bt.postorderOneStack(bt.getRoot());
+        res = bt.preorderIterative(bt.getRoot());
         System.out.println(res);
     }
 }
