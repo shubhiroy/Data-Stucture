@@ -99,24 +99,25 @@ class BinarySearchTree{
         }
         return Math.max(getTreeHeight(root.left), getTreeHeight(root.right))+1;
     }
-    public ArrayList<Integer> postorder(){
+    public ArrayList<Integer> postorderIterative(Node root){
         ArrayList<Integer> arr = new ArrayList<>();
-        postorder(this.root, arr);
-        return arr;
-    }
-    public ArrayList<Integer> preorderIterative(Node root){
-        Stack<Node> st = new Stack<>();
-        ArrayList<Integer> arr = new ArrayList<>();
+        Stack<Node> st1 = new Stack<>();
+        Stack<Node> st2 = new Stack<>();
         Node curr = root;
-        while(curr!=null || st.size()>0){
-            // arr.add(curr.val);
-            while(curr!=null){
-                arr.add(curr.val);
-                st.push(curr);
-                curr = curr.left;
+        st1.push(curr);
+        while(curr!=null && st1.size()>0){
+            curr = st1.pop();
+            if(curr.left!=null){
+                st1.push(curr.left);
             }
-            curr = st.pop();
-            curr = curr.right;
+            if(curr.right!=null){
+                st1.push(curr.right);
+            }
+            st2.push(curr);
+        }
+        while(st2.size()>0){
+            curr = st2.pop();
+            arr.add(curr.val);
         }
         return arr;
     }
@@ -129,7 +130,7 @@ public class test{
         bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
-        res = bt.preorderIterative(bt.getRoot());
+        res = bt.postorderIterative(bt.getRoot());
         System.out.println(res);
     }
 }
