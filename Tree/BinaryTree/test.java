@@ -104,83 +104,34 @@ class BinarySearchTree{
         postorder(this.root, arr);
         return arr;
     }
-    public boolean rootToLeafSum(Node root, int sum, ArrayList<Integer> arr){
-        if(root.left==null && root.right==null){
-            if(sum==root.val){
-                arr.add(root.val);
-                return true;
-            }else{
-                return false;
-            }
-        }
-        sum = sum - root.val;
-        if(root.left!=null){
-            boolean left = rootToLeafSum(root.left, sum, arr);
-            if(left==true){
-                arr.add(root.val);
-                return left;
-            }
-        }
-        if(root.right!=null){
-            boolean right = rootToLeafSum(root.right, sum, arr);
-            if(right==true){
-                arr.add(root.val);
-                return right;
-            }
-        }
-        return false;
-    }
-    public ArrayList<Integer> reverseLevelOrderTraversal(Node root){
-        ArrayList<Integer> arr = new ArrayList<>();
-        Stack<Integer> st = new Stack<>();
-        Queue<Node> q = new LinkedList<>();
-        Node curr =  root;
-        q.add(curr);
-        while(q.size()>0){
-            curr = q.poll();
-            st.push(curr.val);
-            if(curr.right!=null){
-                q.add(curr.right);
-            }
-            if(curr.left!=null){
-                q.add(curr.left);
-            }
-        }
-        while(st.size()>0){
-            arr.add(st.pop());
-        }
-        return arr;
-    }
-    public int lowestCommonAnscestor(Node root, int val1, int val2){
-        if(root==null){
-            return -1;
-        }
-        if((val1==root.val || val2==root.val) || (val1>root.val && val2<root.val) || (val1<root.val && val2>root.val)){
-            return root.val;
-        }else if(val1>root.val && val2>root.val){
-            return lowestCommonAnscestor(root.right,val1,val2);
-        }else if(val1<root.val && val2<root.val){
-            return lowestCommonAnscestor(root.left,val1,val2);
-        }
-        return -1;
-    }
-    public ArrayList<Integer> inorderIterative(Node root){
+    public ArrayList<Integer> postorderOneStack(Node root){
         ArrayList<Integer> arr = new ArrayList<>();
         Stack<Node> st = new Stack<>();
         Node curr = root;
-        //st.push(curr);
-        // while(curr!=null){
-        //     st.push(curr);
-        //     curr = curr.left;
-        // }
         while(curr!=null || st.size()>0){
-            while(curr!=null){
+            if(curr!=null){
                 st.push(curr);
                 curr = curr.left;
+            }else{
+                Node temp = st.peek();
+                if(temp.right==null){
+                    temp = st.pop();
+                    arr.add(temp.val);
+                    if(temp==st.peek().right){
+                        while(st.size()>0 && temp==st.peek().right){
+                            temp = st.pop();
+                            arr.add(temp.val);
+                        }
+                    }
+                    if(st.size()>0){
+                        curr = st.peek().right;
+                    }
+                }else{
+                    curr = temp.right;
+                    st.push(curr);
+                    curr = curr.left;
+                }
             }
-            curr = st.pop();
-            arr.add(curr.val);
-            curr = curr.right;
         }
         return arr;
     }
@@ -193,9 +144,7 @@ public class test{
         bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
-        res = bt.inorder();
-        System.out.println(res);
-        res = bt.inorderIterative(bt.getRoot());
+        res = bt.postorderOneStack(bt.getRoot());
         System.out.println(res);
     }
 }
