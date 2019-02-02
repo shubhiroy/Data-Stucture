@@ -99,27 +99,55 @@ class BinarySearchTree{
         }
         return Math.max(getTreeHeight(root.left), getTreeHeight(root.right))+1;
     }
-    public ArrayList<Integer> postorderIterative(Node root){
-        ArrayList<Integer> arr = new ArrayList<>();
-        Stack<Node> st1 = new Stack<>();
-        Stack<Node> st2 = new Stack<>();
-        Node curr = root;
-        st1.push(curr);
-        while(curr!=null && st1.size()>0){
-            curr = st1.pop();
-            if(curr.left!=null){
-                st1.push(curr.left);
-            }
-            if(curr.right!=null){
-                st1.push(curr.right);
-            }
-            st2.push(curr);
+    private boolean checkVal(Node root, int val){
+        if(root==null){
+            return false;
         }
-        while(st2.size()>0){
-            curr = st2.pop();
-            arr.add(curr.val);
+        if(root.val == val){
+            return true;
         }
-        return arr;
+        return (checkVal(root.left,val) || checkVal(root.right,val));
+    }
+    private boolean getNodePath(Node root, int val, ArrayList<Integer> arr){
+        if(root==null){
+            return false;
+        }
+        if(root.val == val){
+            arr.add(0,root.val);
+            return true;
+        }
+        boolean left = getNodePath(root.left,val,arr);
+        boolean right = getNodePath(root.right,val,arr);
+        if((left||right)==true){
+            arr.add(0,root.val);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public int lcaBT(Node root, int val1, int val2){
+        ArrayList<Integer> arrVal1 = new ArrayList<>();
+        ArrayList<Integer> arrVal2 = new ArrayList<>();
+        // getNodePath(root,val1,arrVal1);
+        // getNodePath(root,val2,arrVal2);
+        if(getNodePath(root,val1,arrVal1)==false || getNodePath(root,val2,arrVal2)==false){
+            return -1;
+        }
+        
+        // if(arrVal1.size()==0 || arrVal2.size()==0){
+        //     return -1;
+        // }
+        int i=0;
+        while((i<arrVal2.size() && i<arrVal1.size() && arrVal1.get(i)==arrVal2.get(i))){
+            i++;
+        }
+        if(i>=arrVal2.size()){
+            return arrVal2.get(i-1);
+        }else if(i>=arrVal1.size()){
+            return arrVal1.get(i-1);
+        }else{
+            return arrVal1.get(i-1);
+        }
     }
 }
 public class test{
@@ -130,7 +158,7 @@ public class test{
         bt.add(5); bt.add(1); bt.add(4); bt.add(2); bt.add(6);
         bt2.add(5); bt2.add(1); bt2.add(4); bt2.add(1);
         ArrayList<Integer> res = new ArrayList<>();
-        res = bt.postorderIterative(bt.getRoot());
-        System.out.println(res);
+        int r = bt.lcaBT(bt.getRoot(),5,5);
+        System.out.println(r);
     }
 }
