@@ -150,7 +150,7 @@ class BinarySearchTree{
         }
     }
 }
-public class test{
+class test{
     public static void main(String[] args){
         BinarySearchTree bt = new BinarySearchTree();
         BinarySearchTree bt2 = new BinarySearchTree();
